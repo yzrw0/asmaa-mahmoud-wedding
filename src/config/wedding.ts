@@ -1,8 +1,8 @@
 export const wedding = {
   couple: {
-    bride: "Asmaa Ayman",
+    bride: "Ásmaa Ayman",
     groom: "Mahmoud Saad",
-    initials: "A · M",
+    initials: "M · A",
   },
   event: {
     date: "2026-12-02",

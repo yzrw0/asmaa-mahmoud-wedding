@@ -19,7 +19,7 @@ export function MessageForm() {
       <div className="honeypot" aria-hidden="true"><label htmlFor="message-website">Website</label><input id="message-website" name="website" tabIndex={-1} autoComplete="off" /></div>
       <label><span>Your name</span><input name="guestName" autoComplete="name" maxLength={100} required placeholder="Full name" /></label>
       <label><span>Your message</span><textarea name="message" maxLength={1200} required rows={5} placeholder="A wish, a memory, a few words from the heart…" /></label>
-      <p className="privacy-note">Only Asmaa & Mahmoud will see this message.</p>
+      <p className="privacy-note">Only Mahmoud & Ásmaa will see this message.</p>
       <button className="gold-button" type="submit" disabled={pending}>{pending ? "Sending your message…" : "Send your message"}</button>
       <Status state={state} />
     </form>

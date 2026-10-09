@@ -6,7 +6,7 @@ export function GET() {
   const body = [
     "BEGIN:VCALENDAR",
     "VERSION:2.0",
-    "PRODID:-//Asmaa & Mahmoud//Wedding Invitation//EN",
+    "PRODID:-//Mahmoud & Ásmaa//Wedding Invitation//EN",
     "CALSCALE:GREGORIAN",
     "METHOD:PUBLISH",
     "BEGIN:VEVENT",
@@ -14,7 +14,7 @@ export function GET() {
     `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "")}`,
     `DTSTART:${start}`,
     `DTEND:${end}`,
-    `SUMMARY:${wedding.couple.bride} & ${wedding.couple.groom} — Wedding`,
+    `SUMMARY:${wedding.couple.groom} & ${wedding.couple.bride} — Wedding`,
     `LOCATION:${wedding.venue.full}`,
     "DESCRIPTION:Join us for an evening beneath the walls of Salah El-Din Citadel.",
     "END:VEVENT",

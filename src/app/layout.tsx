@@ -16,8 +16,8 @@ const sans = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: `${wedding.couple.bride.split(" ")[0]} & ${wedding.couple.groom.split(" ")[0]} — ${wedding.event.dateLabel}`,
-  description: `An invitation to celebrate the wedding of ${wedding.couple.bride} and ${wedding.couple.groom} at ${wedding.venue.landmark}, ${wedding.venue.city}.`,
+  title: `${wedding.couple.groom.split(" ")[0]} & ${wedding.couple.bride.split(" ")[0]} — ${wedding.event.dateLabel}`,
+  description: `An invitation to celebrate the wedding of ${wedding.couple.groom} and ${wedding.couple.bride} at ${wedding.venue.landmark}, ${wedding.venue.city}.`,
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

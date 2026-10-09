@@ -1,4 +1,4 @@
-# Asmaa & Mahmoud — Wedding Invitation
+# Mahmoud & Ásmaa — Wedding Invitation
 
 A production-ready interactive invitation built with Next.js App Router, TypeScript, Tailwind CSS, GSAP ScrollTrigger, Supabase, and Zod.
 
@@ -20,9 +20,11 @@ Open `http://localhost:3000`.
 4. Add the project URL and publishable key to `.env.local`:
 
 ```dotenv
-SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_PUBLISHABLE_KEY=your-publishable-key
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-publishable-key
 ```
+
+The server action also accepts `NEXT_PUBLIC_SUPABASE_ANON_KEY` while an existing project is migrating from the legacy anon key. Configure the same names for the Production environment in Vercel, then redeploy so the server function receives them.
 
 The public roles receive **insert only** permission for `wedding_messages`. Row Level Security is enabled, and there are no public `SELECT`, `UPDATE`, or `DELETE` policies. Couple messages therefore remain private in the Supabase dashboard.
 

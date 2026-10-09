@@ -8,7 +8,7 @@ import { wedding } from "@/config/wedding";
 import { MessageForm } from "./WeddingForms";
 import { Ornament, Star } from "./Ornament";
 
-const googleCalendar = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`${wedding.couple.bride} & ${wedding.couple.groom} — Wedding`)}&dates=${wedding.event.calendarStartUtc}%2F${wedding.event.calendarEndUtc}&details=${encodeURIComponent("Join us for an evening beneath the walls of Salah El-Din Citadel.")}&location=${encodeURIComponent(wedding.venue.full)}`;
+const googleCalendar = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(`${wedding.couple.groom} & ${wedding.couple.bride} — Wedding`)}&dates=${wedding.event.calendarStartUtc}%2F${wedding.event.calendarEndUtc}&details=${encodeURIComponent("Join us for an evening beneath the walls of Salah El-Din Citadel.")}&location=${encodeURIComponent(wedding.venue.full)}`;
 
 type TimeLeft = { days: number; hours: number; minutes: number; seconds: number };
 
@@ -88,24 +88,23 @@ export function WeddingExperience() {
 
     const root = overlayRef.current;
     gsap.timeline({
-      defaults: { ease: "power3.inOut" },
+      defaults: { ease: "power2.inOut" },
       onComplete: () => {
         setIntroVisible(false);
         document.body.classList.remove("is-locked");
         window.scrollTo(0, 0);
       },
     })
-      .to(root.querySelector(".invitation-actions"), { opacity: 0, y: 10, duration: 0.32 })
-      .to(root.querySelector(".wax-seal"), { scale: 0.9, y: 3, duration: 0.16, ease: "power2.out" }, "<")
-      .to(root.querySelector(".wax-seal"), { scale: 0.72, y: 28, rotate: 7, opacity: 0, duration: 0.48, ease: "power2.in" })
-      .to(root.querySelector(".envelope-flap"), { rotateX: -174, duration: 1.05 }, "-=.24")
-      .to(root.querySelector(".inner-sheet"), { yPercent: -38, duration: 1.0 }, "-=.7")
-      .to(root.querySelector(".fold-wing--left"), { rotateY: -168, duration: 1.0 }, "-=.52")
-      .to(root.querySelector(".fold-wing--right"), { rotateY: 168, duration: 1.0 }, "<")
-      .to(root.querySelector(".invitation-light"), { opacity: 0.82, scale: 1.25, duration: 1.0 }, "-=.8")
-      .to(root.querySelector(".inner-card-face"), { scale: 1.015, duration: 0.55, ease: "power2.out" }, "-=.75")
-      .to(root.querySelector(".invitation-object"), { y: -18, scale: 1.035, duration: 0.75 }, "-=.55")
-      .to(root, { opacity: 0, duration: 0.72 }, "+=.7");
+      .to(root.querySelector(".invitation-actions"), { opacity: 0, y: 8, duration: 0.24 })
+      .to(root.querySelector(".wax-seal"), { scale: 0.92, y: 2, duration: 0.12, ease: "power2.out" }, "<")
+      .to(root.querySelector(".wax-seal"), { scale: 0.8, y: 18, rotate: 4, opacity: 0, duration: 0.34, ease: "power2.in" })
+      .to(root.querySelector(".envelope-flap"), { rotateX: -166, duration: 0.82, ease: "power3.inOut" }, "-=.12")
+      .to(root.querySelector(".inner-sheet"), { yPercent: -34, duration: 0.86, ease: "power3.out" }, "-=.48")
+      .to(root.querySelectorAll(".fold-wing"), { rotateY: (index) => index === 0 ? -164 : 164, duration: 0.76, stagger: 0.04, ease: "power3.inOut" }, "-=.46")
+      .to(root.querySelector(".invitation-light"), { opacity: 0.68, scale: 1.12, duration: 0.72 }, "-=.62")
+      .to(root.querySelector(".inner-card-face"), { scale: 1.008, duration: 0.45, ease: "power2.out" }, "-=.42")
+      .to(root.querySelector(".invitation-object"), { y: -10, duration: 0.55, ease: "power2.out" }, "-=.4")
+      .to(root, { opacity: 0, duration: 0.68, ease: "power2.inOut" }, "+=.9");
   }, [entered, musicChoice]);
 
   useLayoutEffect(() => {
@@ -114,8 +113,6 @@ export function WeddingExperience() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const context = gsap.context(() => {
-      gsap.from(".hero-kicker, .hero-name, .hero-date, .scroll-cue", { opacity: 0, y: 28, duration: 1.2, stagger: 0.12, ease: "power3.out", delay: 0.2 });
-      gsap.to(".hero-art", { scale: 1.045, yPercent: -1.5, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: 1.4 } });
       gsap.utils.toArray<HTMLElement>("[data-reveal]").forEach((element) => gsap.from(element, { opacity: 0, y: 48, duration: 1.05, ease: "power3.out", scrollTrigger: { trigger: element, start: "top 86%", once: true } }));
       const media = gsap.matchMedia();
       media.add({ mobile: "(max-width: 767px)", desktop: "(min-width: 768px)" }, ({ conditions }) => {
@@ -126,7 +123,9 @@ export function WeddingExperience() {
         gsap.fromTo(".scene-gate-layer", { clipPath: "inset(100% 0 0 0)", opacity: 0.25 }, { clipPath: "inset(0% 0 0 0)", opacity: mobile ? 0.62 : 0.76, yPercent: mobile ? -2 : -6, ease: "none", scrollTrigger: scene });
         gsap.to(".scene-palm--left", { xPercent: mobile ? -3 : -9, yPercent: mobile ? -5 : -12, ease: "none", scrollTrigger: scene });
         gsap.to(".scene-palm--right", { xPercent: mobile ? 3 : 9, yPercent: mobile ? -4 : -10, ease: "none", scrollTrigger: scene });
-        gsap.fromTo(".scene-copy", { opacity: 0, yPercent: 12 }, { opacity: 1, yPercent: mobile ? -2 : -5, ease: "none", scrollTrigger: scene });
+        gsap.timeline({ scrollTrigger: scene })
+          .to(".scene-hero-copy", { opacity: 0, yPercent: -7, duration: 0.36, ease: "none" })
+          .to(".scene-copy", { opacity: 1, yPercent: mobile ? -2 : -5, duration: 0.46, ease: "none" }, "+=.18");
       });
       gsap.to(".closing-star", { rotate: 90, scale: 1.12, ease: "none", scrollTrigger: { trigger: ".closing", start: "top bottom", end: "bottom bottom", scrub: 1.5 } });
     }, mainRef);
@@ -150,7 +149,7 @@ export function WeddingExperience() {
     </audio>
 
     {introVisible && <div className="opening-layer" ref={overlayRef} aria-label="Open the wedding invitation">
-      <div className={`loader ${loaderDismissed ? "is-dismissed" : ""}`} role="status" aria-live="polite"><div className="loader-monogram">A<span>·</span>M</div><div className="loader-line"><i /></div><p>Preparing your invitation</p></div>
+      <div className={`loader ${loaderDismissed ? "is-dismissed" : ""}`} role="status" aria-live="polite"><div className="loader-monogram">M<span>·</span>A</div><div className="loader-line"><i /></div><p>Preparing your invitation</p></div>
       <div className="invitation-stage">
         <div className="opening-aura" aria-hidden="true" />
         <div className="invitation-light" aria-hidden="true" />
@@ -168,7 +167,7 @@ export function WeddingExperience() {
             <div className="fold-wing fold-wing--left" />
             <div className="fold-wing fold-wing--right" />
             <div className="inner-card-face">
-              <p className="card-names"><span>{wedding.couple.bride}</span><i>&</i><span>{wedding.couple.groom}</span></p>
+              <p className="card-names"><span>{wedding.couple.groom}</span><i>&</i><span>{wedding.couple.bride}</span></p>
               <strong>We’re getting married</strong>
               <small>{wedding.event.dateLabel} · {wedding.event.timeLabel}</small>
               <em>{wedding.venue.name}<br />{wedding.venue.landmark}</em>
@@ -176,7 +175,7 @@ export function WeddingExperience() {
           </div>
           <div className="envelope-pocket" />
           <div className="envelope-flap" />
-          <div className="wax-seal"><span>A</span><i>·</i><span>M</span></div>
+          <div className="wax-seal"><span>M</span><i>·</i><span>A</span></div>
         </div>
         <div className={`invitation-actions ${musicChoice ? "has-choice" : ""}`}>
           {!musicChoice ? <>
@@ -192,20 +191,21 @@ export function WeddingExperience() {
     </div>}
 
     {entered && <main ref={mainRef} className="wedding-site">
-      <section className="hero" aria-labelledby="hero-title">
-        <Image className="hero-art" src={wedding.assets.illustratedScene} alt="An illustrated evening view of Salah El-Din Citadel in Cairo" fill priority sizes="100vw" />
-        <div className="hero-vignette" /><div className="hero-arch" aria-hidden="true" />
-        <div className="hero-content"><p className="eyebrow hero-kicker">We’re getting married</p><h1 id="hero-title"><span className="hero-name">{wedding.couple.bride}</span><i>&</i><span className="hero-name">{wedding.couple.groom}</span></h1><Ornament compact /><p className="hero-date">{wedding.event.dateLabel} · {wedding.event.timeLabel}</p><p className="hero-venue">{wedding.venue.name} · {wedding.venue.landmark}</p></div>
-        <div className="scroll-cue"><span>Enter the evening</span><i /></div>
-      </section>
-
-      {wedding.sections.citadel && <section className="citadel-journey" aria-labelledby="citadel-title">
+      {wedding.sections.citadel && <section className="citadel-journey" aria-labelledby="hero-title">
         <div className="citadel-scene">
           <div className="scene-sky" /><div className="scene-atmosphere" /><div className="scene-moon" />
-          <div className="scene-main"><Image src={wedding.assets.illustratedScene} alt="A painted architectural panorama of Salah El-Din Citadel" fill sizes="100vw" /></div>
+          <div className="scene-main"><Image src={wedding.assets.illustratedScene} alt="A painted architectural panorama of Salah El-Din Citadel" fill priority sizes="100vw" /></div>
           <div className="scene-gate-layer"><Image src={wedding.assets.illustratedGate} alt="" fill sizes="(max-width: 767px) 68vw, 42vw" /></div>
           <Palm className="scene-palm scene-palm--left" /><Palm className="scene-palm scene-palm--right" />
-          <div className="scene-copy" id="citadel-title"><p className="eyebrow">The place that holds the night</p><h2>Through storied walls,<br /><em>toward forever</em></h2><span>Salah El-Din Citadel · Bir Yusuf</span></div>
+          <div className="scene-hero-copy">
+            <p className="eyebrow">We’re getting married</p>
+            <h1 id="hero-title"><span>{wedding.couple.groom}</span><i>&</i><span>{wedding.couple.bride}</span></h1>
+            <Ornament compact />
+            <p className="scene-hero-date">{wedding.event.dateLabel} · {wedding.event.timeLabel}</p>
+            <p className="scene-hero-venue">{wedding.venue.name} · {wedding.venue.landmark}</p>
+          </div>
+          <div className="scene-copy" aria-hidden="true"><p className="eyebrow">The place that holds the night</p><h2>Through storied walls,<br /><em>toward forever</em></h2><span>Salah El-Din Citadel · Bir Yusuf</span></div>
+          <div className="scroll-cue"><span>Enter the evening</span><i /></div>
         </div>
       </section>}
 
@@ -213,7 +213,7 @@ export function WeddingExperience() {
 
       {wedding.sections.venue && <section className="venue section" aria-labelledby="venue-title">
         <div className="venue-visual" data-reveal><div className="venue-moon" /><div className="venue-terraces"><i /><i /><i /></div><div className="venue-tower-art"><Image src={wedding.assets.illustratedTower} alt="An illustrated round tower and stone stairway at Salah El-Din Citadel" fill sizes="(max-width: 800px) 86vw, 45vw" /></div><Palm className="venue-palm" /><div className="venue-visual-frame" /><span className="venue-number">I</span></div>
-        <div className="venue-copy" data-reveal><p className="eyebrow">The gathering place</p><h2 id="venue-title">Bir Yusuf</h2><p className="venue-landmark">Salah El-Din Citadel</p><p>{wedding.venue.city}<br />{wedding.event.dateLabel} · {wedding.event.timeLabel}</p><div className="venue-actions"><a className="gold-button" href={wedding.venue.mapsUrl} target="_blank" rel="noreferrer"><PinIcon />Open in Google Maps</a><a className="text-link" href={googleCalendar} target="_blank" rel="noreferrer">Google Calendar <ArrowIcon /></a><a className="text-link" href="/calendar.ics" download>Download .ics <ArrowIcon /></a></div></div>
+        <div className="venue-copy" data-reveal><p className="eyebrow">The gathering place</p><h2 id="venue-title">Bir Yusuf</h2><p className="venue-landmark">Salah El-Din Citadel</p><p>{wedding.venue.city}<br />{wedding.event.dateLabel} · {wedding.event.timeLabel}</p><div className="no-children-note"><Image src="/no-kids.png" alt="" width={32} height={32} /><p>Little ones, we wish you the sweetest dreams at home.</p></div><div className="venue-actions"><a className="gold-button" href={wedding.venue.mapsUrl} target="_blank" rel="noreferrer"><PinIcon />Open in Google Maps</a><a className="text-link" href={googleCalendar} target="_blank" rel="noreferrer">Google Calendar <ArrowIcon /></a><a className="text-link" href="/calendar.ics" download>Download .ics <ArrowIcon /></a></div></div>
       </section>}
 
       {wedding.sections.message && <section className="message-section section" aria-labelledby="message-title">
@@ -221,7 +221,7 @@ export function WeddingExperience() {
         <div className="form-shell form-shell--dark" data-reveal><MessageForm /></div>
       </section>}
 
-      {wedding.sections.closing && <footer className="closing" aria-label="Closing invitation"><div className="closing-sky" /><div className="closing-architecture"><Image src={wedding.assets.illustratedGate} alt="An illustrated historic Citadel gate" fill sizes="90vw" /></div><div className="closing-overlay" /><Star className="closing-star" /><div className="closing-content" data-reveal><p className="eyebrow">Until we meet beneath the Citadel walls</p><h2>{wedding.couple.bride.split(" ")[0]} <i>&</i> {wedding.couple.groom.split(" ")[0]}</h2><Ornament /><p>{wedding.event.numericDateLabel}</p><small>With love, we await you.</small></div></footer>}
+      {wedding.sections.closing && <footer className="closing" aria-label="Closing invitation"><div className="closing-sky" /><div className="closing-architecture"><Image src={wedding.assets.illustratedGate} alt="An illustrated historic Citadel gate" fill sizes="90vw" /></div><div className="closing-overlay" /><Star className="closing-star" /><div className="closing-content" data-reveal><p className="eyebrow">Until we meet beneath the Citadel walls</p><h2>{wedding.couple.groom.split(" ")[0]} <i>&</i> {wedding.couple.bride.split(" ")[0]}</h2><Ornament /><p>{wedding.event.numericDateLabel}</p><small>With love, we await you.</small></div></footer>}
     </main>}
 
     {entered && <button className={`audio-control ${audioPlaying ? "is-playing" : ""}`} type="button" onClick={toggleAudio} disabled={!audioAvailable} aria-label={audioLabel} title={audioLabel}><span aria-hidden="true">{audioAvailable ? (audioPlaying ? "Ⅱ" : "♪") : "×"}</span><i /></button>}
