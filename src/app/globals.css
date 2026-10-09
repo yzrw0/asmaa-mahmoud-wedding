@@ -224,12 +224,10 @@ a { color: inherit; text-decoration: none; }
 @media (min-width: 600px) {
   .section { padding-inline: 7vw; }
   .invitation-actions { bottom: 3rem; }
-  .announcement-panel { padding-inline: 4rem; }
 }
 
 @media (min-width: 840px) {
   .hero-art { object-position: center; }
-  .announcement::before { inset: 3rem; }
   .venue { grid-template-columns: minmax(320px, .9fr) minmax(340px, .8fr); padding-inline: 9vw; }
   .message-section { grid-template-columns: .72fr 1fr; padding-inline: 10vw; }
   .message-heading { align-self: center; }
